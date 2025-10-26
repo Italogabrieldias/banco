@@ -5,7 +5,6 @@ import exceptions.ValorInvalidoException;
 
 import java.util.Scanner;
 
-
 public class Main {
     private static Banco banco;
     private static Scanner scanner;
