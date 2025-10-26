@@ -6,7 +6,7 @@ public class ContaCorrente extends Conta {
     private double limiteChequeEspecial;
     private static final double TAXA_MANUTENCAO = 15.0;
 
-    public ContaCorrente(Cliente titular) {
+    public ContaCorrente(Cliente titular, double depositoInicial) {
         super(titular);
         this.limiteChequeEspecial = 500.0;
     }
@@ -47,5 +47,8 @@ public class ContaCorrente extends Conta {
     protected void exibirInformacoesEspecificas() {
         System.out.printf("Limite Cheque Especial: R$ %.2f\n", limiteChequeEspecial);
         System.out.printf("Saldo Disponível Total: R$ %.2f\n", getSaldo() + limiteChequeEspecial);
+    }
+
+    public void cobrarTaxaManutencao() {
     }
 }

@@ -1,7 +1,6 @@
 package banco;
 
-import exceptions.ContaInvalidaExeption;
-
+import exceptions.ContaInvalidaException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,24 +20,24 @@ public class Banco {
     }
 
     public void adicionarConta(Conta conta) {
-        conta.add(conta);
+        contas.add(conta);
+
         Cliente titular = conta.getTitular();
         if (!clientes.contains(titular)) {
             clientes.add(titular);
         }
 
-        System.out.println("Conta Criada com sucesso!");
+        System.out.println("Conta criada com sucesso!");
         System.out.println("Número da conta: " + conta.getNumero());
     }
 
-    public Conta buscarConta(int numeroConta) throws ContaInvalidaExeption {
+    public Conta buscarConta(int numeroConta) throws ContaInvalidaException {
         for (Conta conta : contas) {
             if (conta.getNumero() == numeroConta) {
                 return conta;
             }
-
         }
-        throw new ContaInvalidaExeption(numeroConta);
+        throw new ContaInvalidaException(numeroConta);
     }
 
     public List<Conta> buscarContasPorCliente(String cpf) {
@@ -51,7 +50,7 @@ public class Banco {
         return contasCliente;
     }
 
-    public Cliente buscCliente(String cpf) {
+    public Cliente buscarCliente(String cpf) {
         for (Cliente cliente : clientes) {
             if (cliente.getCpf().equals(cpf)) {
                 return cliente;
@@ -62,24 +61,28 @@ public class Banco {
 
     public void listarTodasContas() {
         if (contas.isEmpty()) {
-            System.out.println("Nenhuma conta Cadastrada.");
+            System.out.println("Nenhuma conta cadastrada.");
             return;
         }
-        System.out.println("\n===============  CONTAS CADASTRADAS ===============");
+
+        System.out.println("\n========== CONTAS CADASTRADAS ==========");
         for (Conta conta : contas) {
             System.out.println(conta);
-
         }
-
-        System.out.println("=============================================\n");
+        System.out.println("========================================\n");
     }
 
     public void listarTodosClientes() {
         if (clientes.isEmpty()) {
-            System.out.println("nenhum clientes cadastrado.");
+            System.out.println("Nenhum cliente cadastrado.");
             return;
         }
-        System.out.println("=============================================\n");
+
+        System.out.println("\n========== CLIENTES CADASTRADOS ==========");
+        for (Cliente cliente : clientes) {
+            System.out.println(cliente);
+        }
+        System.out.println("==========================================\n");
     }
 
     public int getTotalContas() {

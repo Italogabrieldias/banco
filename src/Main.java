@@ -1,8 +1,5 @@
 import banco.*;
-import exceptions.ContaInvalidaExeption;
-import exceptions.SaldoInsuficienteException;
-import exceptions.ValorInvalidoException;
-
+import exceptions.*;
 import java.util.Scanner;
 
 public class Main {
@@ -47,7 +44,7 @@ public class Main {
                         cobrarTaxaManutencao();
                         break;
                     case 9:
-                       exibirRelatorio();
+                        exibirRelatorio();
                         break;
                     case 0:
                         continuar = false;
@@ -56,6 +53,7 @@ public class Main {
                     default:
                         System.out.println("\nOpção inválida! Tente novamente.");
                 }
+
                 if (continuar && opcao != 0) {
                     pausar();
                 }
@@ -64,6 +62,7 @@ public class Main {
                 pausar();
             }
         }
+
         scanner.close();
     }
 
@@ -97,148 +96,198 @@ public class Main {
         } catch (NumberFormatException e) {
             return -1;
         }
-        private static void criarConta () {
-            try {
-                System.out.println("\n--- CRIAR NOVA CONTA ---");
+    }
 
-                System.out.println("Nome do titular: ");
-                String nome = scanner.nextLine();
+    private static void criarConta() {
+        try {
+            System.out.println("\n--- CRIAR NOVA CONTA ---");
 
-                System.out.println("CPF do Titular: ");
-                String cpf = scanner.nextLine();
+            System.out.print("Nome do titular: ");
+            String nome = scanner.nextLine();
 
-                System.out.println("Endereço (Opcional): ");
-                String endereco = scanner.nextLine();
+            System.out.print("CPF do titular: ");
+            String cpf = scanner.nextLine();
 
-                System.out.println("Telefone (opcional): ");
-                String telefone = scanner.nextLine();
+            System.out.print("Endereço (opcional): ");
+            String endereco = scanner.nextLine();
 
-                Cliente cliente = new Cliente(nome, cpf, endereco, telefone);
-                System.out.println("\nTipo de Conta:");
-                System.out.println("1. Conta Corrente");
-                System.out.println("2. Conta Poupança");
-                System.out.print("Escolha o tipo: ");
-                int tipo = lerOpcao();
+            System.out.print("Telefone (opcional): ");
+            String telefone = scanner.nextLine();
 
-                System.out.println("Valor do depósito inicial (ou 0): R$ ");
-                double depositoInicial = Double.parseDouble(scanner.nextLine());
+            Cliente cliente = new Cliente(nome, cpf, endereco, telefone);
 
-                Conta novaConta;
+            System.out.println("\nTipo de Conta:");
+            System.out.println("1. Conta Corrente");
+            System.out.println("2. Conta Poupança");
+            System.out.print("Escolha o tipo: ");
+            int tipo = lerOpcao();
 
-                if (tipo == 1) {
-                    if (depositoInicial > 0) {
-                        novaConta = new ContaCorrente(cliente, depositoInicial);
-                    } else {
-                        novaConta = new ContaCorrente(Cliente);
-                    }else if (tipo == 2) {
-                        if (depositoInicial > 0) {
-                            novaConta = new ContaPoupanca(cliente, depositoInicial);
-                        } else {
-                            novaConta = new ContaPoupanca(cliente);
-                        }
-                    } else {
-                        System.out.println("Tipo de conta inválido!");
-                        return;
-                    }
-                    banco.adicionarConta(novaConta);
+            System.out.print("Valor do depósito inicial (ou 0): R$ ");
+            double depositoInicial = Double.parseDouble(scanner.nextLine());
 
-                } catch(ValorInvalidoException e){
-                    System.out.println("Erro: " + e.getMessage());
-                } catch(NumberFormatException e){
-                    System.out.println("Erro: Valor inválido!");
+            Conta novaConta;
+
+            if (tipo == 1) {
+                if (depositoInicial > 0) {
+                    novaConta = new ContaCorrente(cliente, depositoInicial);
+                } else {
+                    novaConta = new ContaCorrente(cliente, depositoInicial);
                 }
-
-            }
-            private static void realizarDeposito () {
-                try {
-                    System.out.println("\n--- DEPOSITAR ---");
-                    System.out.println("Número da conta: ");
-                    int numeroConta = Integer.parseInt(scanner.nextLine());
-
-                    Conta conta = banco.buscarConta(numeroConta);
-
-                    System.out.print("Valor a depositar: R$ ");
-                    double valor = Double.parseDouble(scanner.nextLine());
-                    conta.depositar(valor);
-
-                } catch (ContaInvalidaExeption | ValorInvalidoException e) {
-                    System.out.println("Erro: " + e.getMessage());
-                } catch (NumberFormatException e) {
-                    System.out.println("Erro: Valor inválido!");
+            } else if (tipo == 2) {
+                if (depositoInicial > 0) {
+                    novaConta = new ContaPoupanca(cliente, depositoInicial);
+                } else {
+                    novaConta = new ContaPoupanca(cliente);
                 }
-            }
-            private static void realizarSaque () {
-                try {
-                    System.out.println("\n--- SACAR ---");
-                    System.out.println("Número da Conta: ");
-                    int numeroConta = Integer.parseInt(scanner.nextLine());
-
-                    Conta conta = banco.buscarConta(numeroConta);
-                    System.out.println("Valor a sacar: R$ ");
-                    double valor = Double.parseDouble(scanner.nextLine());
-
-                    conta.sacar(valor);
-                } catch (ContaInvalidaExeption | ValorInvalidoException | SaldoInsuficienteException e) {
-                    System.out.println("Erro: " + e.getMessage());
-                } catch (NumberFormatException e) {
-                    System.out.println("Erro: Valor inválido!");
-                }
-            }
-            private static void realiazarTransferencia () {
-                try {
-                    System.out.println("\n--- TRANSFERIR ---");
-                    System.out.print("Número da conta de origem: ");
-                    int numeroOrigem = Integer.parseInt(scanner.nextLine());
-
-                    Conta contaOrigem = banco.buscarConta(numeroOrigem);
-
-                    System.out.print("Número da conta de destino: ");
-                    int numeroDestino = Integer.parseInt(scanner.nextLine());
-
-                    Conta contaDestino = banco.buscarConta(numeroDestino);
-
-                    System.out.print("Valor a transferir: R$ ");
-                    double valor = Double.parseDouble(scanner.nextLine());
-
-                    contaOrigem.transferir(valor, contaDestino);
-
-                } catch (ContaInvalidaException | ValorInvalidoException | SaldoInsuficienteException e) {
-                    System.out.println("Erro: " + e.getMessage());
-                } catch (NumberFormatException e) {
-                    System.out.println("Erro: Valor inválido!");
-                }
+            } else {
+                System.out.println("Tipo de conta inválido!");
+                return;
             }
 
-            private static void cobrarTaxaManutencao () {
-                try {
-                    System.out.println("\n--- COBRAR TAXA DE MANUTENÇÃO ---");
-                    System.out.print("Número da conta corrente: ");
-                    int numeroConta = Integer.parseInt(scanner.nextLine());
+            banco.adicionarConta(novaConta);
 
-                    Conta conta = banco.buscarConta(numeroConta);
-
-                    if (conta instanceof ContaCorrente) {
-                        ContaCorrente corrente = (ContaCorrente) conta;
-                        corrente.cobrarTaxaManutencao();
-                    } else {
-                        System.out.println("Erro: Esta operação é válida apenas para Contas Corrente!");
-                    }
-
-                } catch (ContaInvalidaException e) {
-                    System.out.println("Erro: " + e.getMessage());
-                } catch (NumberFormatException e) {
-                    System.out.println("Erro: Número de conta inválido!");
-                }
-            }
-
-            private static void exibirRelatorio() {
-                banco.exibirRelatorio();
-            }
-
-            private static void pausar() {
-                System.out.print("\nPressione ENTER para continuar...");
-                scanner.nextLine();
-            }
+        } catch (ValorInvalidoException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: Valor inválido!");
         }
+    }
+
+    private static void realizarDeposito() {
+        try {
+            System.out.println("\n--- DEPOSITAR ---");
+            System.out.print("Número da conta: ");
+            int numeroConta = Integer.parseInt(scanner.nextLine());
+
+            Conta conta = banco.buscarConta(numeroConta);
+
+            System.out.print("Valor a depositar: R$ ");
+            double valor = Double.parseDouble(scanner.nextLine());
+
+            conta.depositar(valor);
+
+        } catch (ContaInvalidaException | ValorInvalidoException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: Valor inválido!");
+        }
+    }
+
+    private static void realizarSaque() {
+        try {
+            System.out.println("\n--- SACAR ---");
+            System.out.print("Número da conta: ");
+            int numeroConta = Integer.parseInt(scanner.nextLine());
+
+            Conta conta = banco.buscarConta(numeroConta);
+
+            System.out.print("Valor a sacar: R$ ");
+            double valor = Double.parseDouble(scanner.nextLine());
+
+            conta.sacar(valor);
+
+        } catch (ContaInvalidaException | ValorInvalidoException | SaldoInsuficienteException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: Valor inválido!");
+        }
+    }
+
+    private static void realizarTransferencia() {
+        try {
+            System.out.println("\n--- TRANSFERIR ---");
+            System.out.print("Número da conta de origem: ");
+            int numeroOrigem = Integer.parseInt(scanner.nextLine());
+
+            Conta contaOrigem = banco.buscarConta(numeroOrigem);
+
+            System.out.print("Número da conta de destino: ");
+            int numeroDestino = Integer.parseInt(scanner.nextLine());
+
+            Conta contaDestino = banco.buscarConta(numeroDestino);
+
+            System.out.print("Valor a transferir: R$ ");
+            double valor = Double.parseDouble(scanner.nextLine());
+
+            contaOrigem.transferir(valor, contaDestino);
+
+        } catch (ContaInvalidaException | ValorInvalidoException | SaldoInsuficienteException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: Valor inválido!");
+        }
+    }
+
+    private static void consultarExtrato() {
+        try {
+            System.out.println("\n--- CONSULTAR EXTRATO ---");
+            System.out.print("Número da conta: ");
+            int numeroConta = Integer.parseInt(scanner.nextLine());
+
+            Conta conta = banco.buscarConta(numeroConta);
+            conta.exibirExtrato();
+
+        } catch (ContaInvalidaException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: Número de conta inválido!");
+        }
+    }
+
+    private static void listarContas() {
+        banco.listarTodasContas();
+    }
+
+    private static void aplicarRendimento() {
+        try {
+            System.out.println("\n--- APLICAR RENDIMENTO ---");
+            System.out.print("Número da conta poupança: ");
+            int numeroConta = Integer.parseInt(scanner.nextLine());
+
+            Conta conta = banco.buscarConta(numeroConta);
+
+            if (conta instanceof ContaPoupanca) {
+                ContaPoupanca poupanca = (ContaPoupanca) conta;
+                poupanca.aplicarRendimento();
+            } else {
+                System.out.println("Erro: Esta operação é válida apenas para Contas Poupança!");
+            }
+
+        } catch (ContaInvalidaException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: Número de conta inválido!");
+        }
+    }
+
+    private static void cobrarTaxaManutencao() {
+        try {
+            System.out.println("\n--- COBRAR TAXA DE MANUTENÇÃO ---");
+            System.out.print("Número da conta corrente: ");
+            int numeroConta = Integer.parseInt(scanner.nextLine());
+
+            Conta conta = banco.buscarConta(numeroConta);
+
+            if (conta instanceof ContaCorrente) {
+                ContaCorrente corrente = (ContaCorrente) conta;
+                corrente.cobrarTaxaManutencao();
+            } else {
+                System.out.println("Erro: Esta operação é válida apenas para Contas Corrente!");
+            }
+
+        } catch (ContaInvalidaException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: Número de conta inválido!");
+        }
+    }
+
+    private static void exibirRelatorio() {
+        banco.exibirRelatorio();
+    }
+
+    private static void pausar() {
+        System.out.print("\nPressione ENTER para continuar...");
+        scanner.nextLine();
     }
 }

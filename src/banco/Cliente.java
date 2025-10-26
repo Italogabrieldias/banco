@@ -6,14 +6,14 @@ public class Cliente {
     private String endereco;
     private String telefone;
 
-    public void Cliente(String nome, String cpf) {
+    public Cliente(String nome, String cpf) {
         this.nome = nome;
         this.cpf = cpf;
         this.endereco = "";
         this.telefone = "";
     }
 
-    public void Banco(String nome, String cpf, String endereco, String telefone) {
+    public Cliente(String nome, String cpf, String endereco, String telefone) {
         this.nome = nome;
         this.cpf = cpf;
         this.endereco = endereco;
@@ -30,10 +30,6 @@ public class Cliente {
 
     public String getCpf() {
         return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     public String getEndereco() {
@@ -54,18 +50,15 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Banco{" +
-                "cpf='" + cpf + '\'' +
-                ", nome='" + nome + '\'' +
-                '}';
+        return String.format("Cliente: %s | CPF: %s", nome, cpf);
     }
 
     public String exibirDetalhes() {
-        return String.format("Nome: %s\nCPF: %s\nEndereço: %s\nTelefone: %s",
+        return String.format(
+                "Nome: %s\nCPF: %s\nEndereço: %s\nTelefone: %s",
                 nome, cpf,
                 endereco.isEmpty() ? "Não informado" : endereco,
                 telefone.isEmpty() ? "Não informado" : telefone
         );
     }
 }
-
