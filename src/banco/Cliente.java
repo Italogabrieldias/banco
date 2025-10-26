@@ -6,7 +6,7 @@ public class Cliente {
     private String endereco;
     private String telefone;
 
-    public void Cliente(String nome, String cpf){
+    public void Cliente(String nome, String cpf) {
         this.nome = nome;
         this.cpf = cpf;
         this.endereco = "";
@@ -59,8 +59,9 @@ public class Cliente {
                 ", nome='" + nome + '\'' +
                 '}';
     }
-    public String exibirDetalhes () {
-        return String.format( "Nome: %s\nCPF: %s\nEndereço: %s\nTelefone: %s",
+
+    public String exibirDetalhes() {
+        return String.format("Nome: %s\nCPF: %s\nEndereço: %s\nTelefone: %s",
                 nome, cpf,
                 endereco.isEmpty() ? "Não informado" : endereco,
                 telefone.isEmpty() ? "Não informado" : telefone

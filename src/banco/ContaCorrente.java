@@ -15,8 +15,9 @@ public class ContaCorrente extends Conta {
         super(titular, depositoInicial);
         this.limiteChequeEspecial = limiteChequeEspecial;
     }
-    public void  setLimiteChequeEspecial(double limiteChequeEspecial){
-        if (limiteChequeEspecial >= 0){
+
+    public void setLimiteChequeEspecial(double limiteChequeEspecial) {
+        if (limiteChequeEspecial >= 0) {
             this.limiteChequeEspecial = limiteChequeEspecial;
         }
 
@@ -31,7 +32,8 @@ public class ContaCorrente extends Conta {
     public String getTipoConta() {
         return "Conta Corrente";
     }
-    public void cobrareTaxaManutencao(){
+
+    public void cobrareTaxaManutencao() {
         try {
             setSaldo(getSaldo() - TAXA_MANUTENCAO);
             System.out.printf("Taxa de manutenção de R$ %.2f cobrada. \n", TAXA_MANUTENCAO);
